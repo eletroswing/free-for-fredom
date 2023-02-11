@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+require('dotenv').config()
 var app = require('../app');
 var debug = require('debug')('fff2:server');
 var http = require('http');
@@ -14,7 +14,7 @@ const {createClient} = require('redis')
  * Redis config
  */
 const client = createClient({
-  url: 'redis://default:redispw@localhost:49153'
+  url: process.env.redis
 });
 
 client.on('error', err => console.log('Redis Client Error', err));
