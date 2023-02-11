@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Primary Meta Tags -->
+<title>Free For Fredom: Assista BBB ao vivo o dia todo! Todas as cameras!</title>
+<meta name="title" content="Free For Fredom: Assista BBB ao vivo o dia todo! Todas as cameras!">
+<meta name="description" content="Assista todas as cameras do BBB (big brother brasil) ao vivo 24/7. Compartilhe com amigos e se divirta nessa nova plataforma! O que será que os brothers estão falando agora?">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://metatags.io/">
+<meta property="og:title" content="Free For Fredom: Assista BBB ao vivo o dia todo! Todas as cameras!">
+<meta property="og:description" content="Assista todas as cameras do BBB (big brother brasil) ao vivo 24/7. Compartilhe com amigos e se divirta nessa nova plataforma! O que será que os brothers estão falando agora?">
+<meta property="og:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://metatags.io/">
+<meta property="twitter:title" content="Free For Fredom: Assista BBB ao vivo o dia todo! Todas as cameras!">
+<meta property="twitter:description" content="Assista todas as cameras do BBB (big brother brasil) ao vivo 24/7. Compartilhe com amigos e se divirta nessa nova plataforma! O que será que os brothers estão falando agora?">
+<meta property="twitter:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/javascripts/video.js" defer></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      #player {
+        width: 100% !important;
+        background-color: #000;
+        height: 80%;
+      }
+
+      #containerforvideo {
+        width: 100% !important;
+      }
+
+      #container {
+        background-color: #0e0e10;
+      }
+
+      #input {
+        margin-bottom: 1rem;
+      }
+
+      @media only screen and (min-width: 768px) {
+        #player {
+          width: 100% !important;
+          height: 85% !important;
+        }
+
+        #slider {
+          height: 15% !important;
+        }
+
+        #containerforvideo {
+          width: 70% !important;
+          height: 100% !important;
+        }
+
+        #container {
+          display: flex;
+          flex-direction: row !important;
+        }
+
+        #chat {
+          width: 30% !important;
+        }
+
+        #chat #content {
+          height: 90% !important;
+        }
+
+        #chat #input {
+          height: 10% !important;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="/stylesheets/video.css" />
+    <link rel="stylesheet" href="/stylesheets/chat.css" />
+    <style>
+        #slider button {
+          height: 90%;
+          margin-left: .3rem;
+          aspect-ratio: 2/1;
+          background-color: #000000;
+          user-select: none;
+          padding-top: 0.1rem;
+          padding-bottom: 0.1rem;
+          padding-left: 0.3rem;
+          padding-right: 0.3rem;
+          border-radius: 0.3rem;
+          font-weight: 600;
+          color: white;
+          line-height: 1.5;
+          font-size: .7rem;
+          white-space: nowrap !important;
+          text-transform: uppercase !important;
+          cursor: pointer;
+          transition: 0.25s;
+          border: 1px solid blue;
+          filter: drop-shadow(0px 0px 30px rgba(0, 0, 255, 0.5));
+        } 
+
+        #slider button:hover {
+          box-shadow: 0 0.5em 0.5em -0.4em blue;
+          transform: translateY(-0.25em);
+          color:blue;
+        }
+
+        #slider {
+          height: 20%;
+          display: flex;
+          overflow: auto;
+          align-items: center;
+        }
+
+        #slider::-webkit-scrollbar-track
+          {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            background-color: #18181b;
+          }
+
+          #slider::-webkit-scrollbar
+          {
+            height: .6rem;
+            background-color: #18181b;
+          }
+
+          #slider::-webkit-scrollbar-thumb
+          {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color: #2f2f34;
+          }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="containerforvideo">
+        <div id="player">
+          <div id="top">
+            <div id="title">
+              <div id="title_text">
+                <p id="title_camera">Camera principal</p>
+              </div>
+            </div>
+            <!--<div id="warning">
+              <div id="warning_text">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="none"
+                    stroke="#fff"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m12 3 10 18H2L12 3Zm0 6v6m0 1v2"
+                  />
+                </svg>
+                <p>Camera Defeituosa</p>
+              </div>
+            </div>-->
+            <div id="live">
+              <div id="text">
+                <p>AO VIVO</p>
+              </div>
+            </div>
+          </div>
+          <video id="video" muted autoplay></video>
+          <div id="bottom">
+            <div id="left">
+              <div id="play" class="control_button tooltip">
+                <span class="tooltiptext">Pausar (espaço/k)</span>
+                <svg
+                  fill="currentColor"
+                  width="25"
+                  height="25"
+                  version="1.1"
+                  viewBox="0 0 20 20"
+                  x="0px"
+                  y="0px"
+                  class="ScIconSVG-sc-1q25cff-1 dSicFr"
+                >
+                  <g><path d="M8 3H4v14h4V3zM16 3h-4v14h4V3z"></path></g>
+                </svg>
+              </div>
+              <div id="sound" class="control_button tooltip">
+                <span class="tooltiptext">Tirar do mudo (m)</span>
+                <svg
+                  fill="currentColor"
+                  width="25"
+                  height="25"
+                  version="1.1"
+                  viewBox="0 0 20 20"
+                  x="0px"
+                  y="0px"
+                  class="ScIconSVG-sc-1q25cff-1 dSicFr"
+                >
+                  <path
+                    d="M5 7l4.146-4.146a.5.5 0 01.854.353v13.586a.5.5 0 01-.854.353L5 13H4a2 2 0 01-2-2V9a2 2 0 012-2h1zM12 8.414L13.414 7l1.623 1.623L16.66 7l1.414 1.414-1.623 1.623 1.623 1.623-1.414 1.414-1.623-1.623-1.623 1.623L12 11.66l1.623-1.623L12 8.414z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div id="middle">
+              <div id="users">
+                <svg
+                  fill="currentColor"
+                  width="1rem"
+                  height="1rem"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 11.796c2.719 0 4.923-2.193 4.923-4.898C16.923 4.193 14.72 2 12 2S7.077 4.193 7.077 6.898c0 2.705 2.204 4.898 4.923 4.898Zm2.564 2.041H9.436C6.462 13.837 4 16.286 4 19.245c0 .714.308 1.327.923 1.633C5.846 21.388 7.897 22 12 22s6.154-.612 7.077-1.122A1.93 1.93 0 0 0 20 19.245c0-3.061-2.462-5.408-5.436-5.408Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <div id="number">
+                  <p>0</p>
+                </div>
+              </div>
+            </div>
+            <div id="right">
+              <div id="fullscreen" class="control_button tooltip">
+                <span class="tooltiptext border">Tela Cheia (f)</span>
+                <svg
+                  fill="currentColor"
+                  width="25"
+                  height="26"
+                  version="1.1"
+                  viewBox="0 0 20 20"
+                  x="0px"
+                  y="0px"
+                  class="ScIconSVG-sc-1q25cff-1 dSicFr"
+                >
+                  <g>
+                    <path
+                      d="M7 3H2v5h2V5h3V3zM18 8V3h-5v2h3v3h2zM13 17v-2h3v-3h2v5h-5zM4 12H2v5h5v-2H4v-3z"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="slider">
+          <button class="button" data-identifier="bbbcam1">Principal</button>
+          <button class="button" data-identifier="bbbcam2">Principal 2</button>
+          <button class="button" data-identifier="bbbcam3">Mosaico</button>
+          <button class="button" data-identifier="bbbcam4">Quarto: Deserto</button>
+          <button class="button" data-identifier="bbbcam5">Quarto: Fundo do mar</button>
+          <button class="button" data-identifier="bbbcam6">Sala</button>
+          <button class="button" data-identifier="bbbcam7">Cozinha</button>
+          <button class="button" data-identifier="bbbcam8">Piscina</button>
+          <button class="button" data-identifier="bbbcam9">Jardim 1</button>
+          <button class="button" data-identifier="bbbcam10">Jardim 2</button>
+          <button class="button" data-identifier="bbbcam11">Varanda</button>
+          <button class="button" data-identifier="bbbcam12">Confessionário</button> 
+        </div>
+      </div>
+      <div id="chat">
+        <div id="content"></div>
+        <form id="input" autocomplete="off">
+          <input
+            type="text"
+            id="input_component"
+            placeholder="Envie uma mensagem"
+          />
+          <input type="submit" style="position: absolute; left: -9999px" />
+        </form>
+      </div>
+    </div>
+
+    <script src="/javascripts/chat.js" defer></script>
+    <script src="/javascripts/controler.js" defer></script>
+  </body>
+</html>
