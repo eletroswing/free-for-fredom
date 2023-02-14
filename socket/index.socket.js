@@ -1,6 +1,6 @@
 module.exports = function(io, redis) {
     io.sockets.on("connection", async function(socket){
-        console.log(`New connection from: ${socket.id}`)
+        //console.log(`New connection from: ${socket.id}`)
 
         socket.on('client.username.check', async (username) => {
             var roomConnectedUsers = JSON.parse(await redis.get('rooms.users'))
@@ -122,7 +122,7 @@ module.exports = function(io, redis) {
           io.sockets.emit('server.rooom.update', {
             roomData
         })
-          console.log(`${socket.id} disconnected!`)
+          //console.log(`${socket.id} disconnected!`)
         })
 
     });
