@@ -7,6 +7,9 @@ var play = document.getElementById('play')
 var fullscreen = document.getElementById('fullscreen')
 var mute = document.getElementById('sound')
 
+var input = document.getElementById('input_component')
+var inputFocused = false;
+
 var player_state = {
     paused: false,
     showControls: true,
@@ -87,11 +90,15 @@ function toggleFullScreen(e) {
   }
 
   function keyboardShortcuts(event) {
+    if(inputFocused) return;
     const { key } = event;
     switch (key) {
       case 'k':
         PlayPause();
         break;
+      case ' ':
+          PlayPause();
+          break;
     case 'm':
         MuteUnmute();
         break;
@@ -143,7 +150,7 @@ src.addEventListener("canplay", ()=> {
     play.addEventListener('click', PlayPause)
     mute.addEventListener('click', MuteUnmute)
     fullscreen.addEventListener('click', toggleFullScreen)
-    player.addEventListener('keyup', keyboardShortcuts);
+    document.addEventListener('keyup', keyboardShortcuts);
     document.addEventListener('fullscreenchange', exitHandler);
     document.addEventListener('webkitfullscreenchange', exitHandler);
     document.addEventListener('mozfullscreenchange', exitHandler);
@@ -154,4 +161,7 @@ src.addEventListener("canplay", ()=> {
     player.addEventListener('mouseleave', SwitchControl)
     player.addEventListener('mouseenter', SwitchControl)
     player.addEventListener('mousemove', SwitchControl)
+
+    input.addEventListener('focusin', () => {inputFocused = true})
+    input.addEventListener('focusout', () => {inputFocused = false})
 })
