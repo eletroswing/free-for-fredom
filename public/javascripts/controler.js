@@ -236,6 +236,49 @@ function handleButtonClick(e){
     change(e.srcElement.dataset.identifier)
   }
 }
+
+var srcInControlle = document.getElementById('video')
+var waiter = 0;
+
+srcInControlle.addEventListener('waiting', () => {
+  waiter = waiter + 1
+  check_wait_time()
+})
+
+function check_wait_time() {
+  if(waiter == 2) {
+    wait = 0
+    reload_video(currentCamera)
+  }
+}
+
+function reload_video(cam = "bbbcam1") {
+  srcInControlle.paused = true
+  if (CurrentHLS) {
+    CurrentHLS.destroy();
+  }
+
+
+  CurrentHLS = new Hls();
+  CurrentHLS.loadSource(
+    `/api/v1/channels/${cam}`
+  );
+
+  currentCamera = cam
+  title.innerText = MyCam[cam].title
+
+  CurrentHLS.attachMedia(video);
+  CurrentHLS.on(Hls.Events.MANIFEST_PARSED, function () {
+    video.play();
+  });
+
+  console.log('reloaded')
+  waiter = 0
+  srcInControlle.paused = false
+
+}
+
+
 //* console ban in code*/
 /*!
  * console-ban v5.0.0
